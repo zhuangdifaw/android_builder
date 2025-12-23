@@ -8,14 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4  # 升级到稳定新版（原v2已老旧，v4更稳定）
       - name: Set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3  # 升级到稳定新版（原v1已废弃，v3更可靠）
         with:
           java-version: 1.8
+          distribution: temurin  # 明确JDK发行版，v3版本推荐配置
       - id: get-project
         name: Get project name
-        run: echo "::set-output name=PROJECT::$(cat project-to-build)"
+        run: echo "PROJECT=$(cat project-to-build)" >> $GITHUB_OUTPUT  # 替换旧的::set-output语法（更规范）
       - name: Clone project
         run: git clone --depth=1 ${{ steps.get-project.outputs.PROJECT }} project
       - name: Build the app
@@ -25,8 +26,7 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace
       - name: Upload APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4  # 核心修改：升级废弃的v2到官方推荐v4
         with:
           name: my-build-apk
-          path: ./**/*.apk
-
+          path: ./**/*.apk  # 路径保持不变，功能不受影响

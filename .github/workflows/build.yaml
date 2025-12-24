@@ -10,9 +10,9 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
-          java-version: 8  # 关键修改：将1.8改为规范的8，适配v3版本的版本识别
+          java-version: 7  # 关键修改：将1.8改为规范的8，适配v3版本的版本识别
           distribution: temurin  # 明确JDK发行版，避免兼容问题
       - id: get-project
         name: Get project name
